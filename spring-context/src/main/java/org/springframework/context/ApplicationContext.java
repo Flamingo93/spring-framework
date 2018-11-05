@@ -57,6 +57,10 @@ import org.springframework.lang.Nullable;
  */
 public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
 		MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
+	/*从 ApplicationContext 接口的实现，我们看出其特点：
+	1. 支持信息源，可以实现国际化。（实现 MessageSource 接口）。
+	2. 访问资源。(实现 ResourcePatternResolver 接口)。
+	3. 支持应用事件。(实现 ApplicationEventPublisher 接口)。*/
 
 	/**
 	 * Return the unique id of this application context.
