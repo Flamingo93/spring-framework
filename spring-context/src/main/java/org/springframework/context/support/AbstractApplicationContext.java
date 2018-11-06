@@ -449,6 +449,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getResources
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
+	//获取一tApplicationContext继承D个Spring Source的加载器用于读入Spring Bean定义资源文件,AbstracefaultResourceLoader，所以这里传入自己
 	protected ResourcePatternResolver getResourcePatternResolver() {
 		return new PathMatchingResourcePatternResolver(this);
 	}
@@ -1310,6 +1311,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	// Implementation of ResourcePatternResolver interface
 	//---------------------------------------------------------------------
 
+	//getResources用于载入资源
 	@Override
 	public Resource[] getResources(String locationPattern) throws IOException {
 		return this.resourcePatternResolver.getResources(locationPattern);

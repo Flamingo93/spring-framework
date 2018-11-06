@@ -45,6 +45,7 @@ import org.springframework.util.StringUtils;
  * @see FileSystemResourceLoader
  * @see org.springframework.context.support.ClassPathXmlApplicationContext
  */
+//DefaultResourceLoader是一个Spring资源加载器，其getResource(String location)方法用于载入资源
 public class DefaultResourceLoader implements ResourceLoader {
 
 	@Nullable
