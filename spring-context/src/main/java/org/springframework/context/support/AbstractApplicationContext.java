@@ -511,42 +511,55 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
+		//载入过程是线程同步安全的
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
+			//调用容器准备刷新的方法，获取容器的当时时间，同时给容器设置同步标识
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			//调用obtainFreshBeanFactory方法获取BeanFactory，Bean定义资源文件的载入是从获取BeanFactory开始
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			//预处理BeanFactory容器，例如配置类加载器、事件处理器等特性
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				//为容器的某些子类指定特殊的BeanPost事件处理器
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				//调用所有注册的BeanFactoryPostProcessor的Bean
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				//为BeanFactory注册BeanPost事件处理器.
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				//初始化信息源，和国际化相关.
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				//初始化容器事件传播器.
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//调用子类的某些特殊Bean初始化方法
 				onRefresh();
 
 				// Check for listener beans and register them.
+				//为事件传播器注册事件监听器.
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				//初始化所有剩余的单态Bean.
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				//初始化容器的生命周期事件处理器，并发布容器的生命周期事件
 				finishRefresh();
 			}
 
@@ -557,9 +570,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				}
 
 				// Destroy already created singletons to avoid dangling resources.
+				//销毁已创建的单态Bean
 				destroyBeans();
 
 				// Reset 'active' flag.
+				//取消refresh操作，重置容器的同步标识.
 				cancelRefresh(ex);
 
 				// Propagate exception to caller.
@@ -620,7 +635,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		//这里使用了委派设计模式，父类定义了抽象的refreshBeanFactory()方法，具体实现调用子类容器的refreshBeanFactory()方法
 		refreshBeanFactory();
+		//这里也使用了委派设计模式，父类定义了抽象的getBeanFactory()方法，
+		// 具体实现调用子类容器AbstractRefreshableApplicationContext的getBeanFactory()方法
 		return getBeanFactory();
 	}
 
