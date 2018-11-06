@@ -120,16 +120,23 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * bean factory, shutting down the previous bean factory (if any) and
 	 * initializing a fresh bean factory for the next phase of the context's lifecycle.
 	 */
+	/* 查看 refreshBeanFactory 函数的实现，我们知道在创建 IoC 容器前，如果已经有容器存在，则需要把已有的容器销毁和关闭，
+	以保证在 refresh 之后使用的是新建立起来的 IoC 容器。
+	refresh 的作用类似于对 IoC 容器的重启，在新建立好的容器中对容器进行初始化，对 Bean 定义资源进行载入。*/
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		//如果已经有容器，销毁容器中的bean，关闭容器
 		if (hasBeanFactory()) {
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
+			//这里创建SpringIoC容器
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
 			customizeBeanFactory(beanFactory);
+			//调用载入Bean定义的方法
+			// 主要这里又使用了一个委派模式，在当前类中只定义了抽象的loadBeanDefinitions方法，具体的实现调用子类容器
 			loadBeanDefinitions(beanFactory);
 			synchronized (this.beanFactoryMonitor) {
 				this.beanFactory = beanFactory;
@@ -239,6 +246,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.PropertiesBeanDefinitionReader
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 	 */
+	//这里创建SpringIoC容器 （重点关注）,我们最终使用的是DefaultListableBeanFactory
+	//最终功能在子类实现
 	protected abstract void loadBeanDefinitions(DefaultListableBeanFactory beanFactory)
 			throws BeansException, IOException;
 
