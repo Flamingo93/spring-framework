@@ -101,6 +101,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * @see #setFactoryBeanName
 	 * @see #setFactoryMethodName
 	 */
+	//有了className 我们通过反射就可以构造对象
 	void setBeanClassName(@Nullable String beanClassName);
 
 	/**
@@ -217,6 +218,8 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>The returned instance can be modified during bean factory post-processing.
 	 * @return the ConstructorArgumentValues object (never {@code null})
 	 */
+	//最终通过getConstructorArgumentValues().addGenericArgumentValue(valueHolder);注入构造参数
+	//获取构造器参数
 	ConstructorArgumentValues getConstructorArgumentValues();
 
 	/**
@@ -232,6 +235,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>The returned instance can be modified during bean factory post-processing.
 	 * @return the MutablePropertyValues object (never {@code null})
 	 */
+	//最终通过getPropertyValues().addPropertyValue(pv);设置我们为Bean配置的属性信息
 	MutablePropertyValues getPropertyValues();
 
 	/**
