@@ -205,8 +205,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	public Object getSingleton(String beanName, ObjectFactory<?> singletonFactory) {
 		Assert.notNull(beanName, "Bean name must not be null");
 		synchronized (this.singletonObjects) {
+			//从用于存放完全初始化好的bean的singletonObjects中获取
 			Object singletonObject = this.singletonObjects.get(beanName);
+			//如果从用于存放完全初始化好的bean的singletonObjects中获取失败（没有创建完成）
 			if (singletonObject == null) {
+				//正在创建中
 				if (this.singletonsCurrentlyInDestruction) {
 					throw new BeanCreationNotAllowedException(beanName,
 							"Singleton bean creation not allowed while singletons of this factory are in destruction " +
@@ -228,6 +231,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				catch (IllegalStateException ex) {
 					// Has the singleton object implicitly appeared in the meantime ->
 					// if yes, proceed with it since the exception indicates that state.
+					//从存放的bean对象中获取
 					singletonObject = this.singletonObjects.get(beanName);
 					if (singletonObject == null) {
 						throw ex;
