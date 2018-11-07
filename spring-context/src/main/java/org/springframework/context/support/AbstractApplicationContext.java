@@ -1099,53 +1099,62 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public Object getBean(String name) throws BeansException {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBean(name);
 	}
 
 	@Override
 	public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBean(name, requiredType);
 	}
 
 	@Override
 	public Object getBean(String name, Object... args) throws BeansException {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBean(name, args);
 	}
 
 	@Override
 	public <T> T getBean(Class<T> requiredType) throws BeansException {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBean(requiredType);
 	}
 
 	@Override
 	public <T> T getBean(Class<T> requiredType, Object... args) throws BeansException {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBean(requiredType, args);
 	}
 
 	@Override
 	public <T> ObjectProvider<T> getBeanProvider(Class<T> requiredType) {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBeanProvider(requiredType);
 	}
 
 	@Override
 	public <T> ObjectProvider<T> getBeanProvider(ResolvableType requiredType) {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().getBeanProvider(requiredType);
 	}
 
 	@Override
 	public boolean containsBean(String name) {
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().containsBean(name);
 	}
 
 	@Override
 	public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
 		assertBeanFactoryActive();
+		//不管形式怎样最终都是委托模式的BeanFactory实现的
 		return getBeanFactory().isSingleton(name);
 	}
 
@@ -1394,6 +1403,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #refreshBeanFactory()
 	 * @see #closeBeanFactory()
 	 */
+	//委托模式
 	@Override
 	public abstract ConfigurableListableBeanFactory getBeanFactory() throws IllegalStateException;
 
